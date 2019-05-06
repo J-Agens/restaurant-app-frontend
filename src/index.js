@@ -52,7 +52,7 @@ function renderParty(party) {
   const btn = ul.querySelector('button').classList.add("disappear");
   h4.innerHTML = `Table ${party.table_id}: ${party.name}`;
   party.orders.forEach(function(order) {
-    ul.innerHTML += `<li>${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
+    ul.innerHTML += `<li draggable="true" id=${order.id}-order-li>${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
   });
   formDiv.innerHTML = `
     <button data-add-order-to-party=${party.table_id}>New Order</button>
@@ -165,5 +165,53 @@ tableRow.addEventListener('click', function(e) {
 
   }
 });
+
+function deleteOrder (orderId) {
+  fetch(`${ordersUrl}/${orderId}`, {method: "DELETE"})
+  .then( res => res.json())
+  .then( order => { //order is a place holder
+  }).catch(error => {
+    alert(error.message);
+    console.log(error.message)
+  })
+}
+
+
+tableRow.addEventListener('click', e =>  {
+  // Delte order item on click
+  if (e.target.tagName === 'LI') {
+    let orderId = parseInt(e.target.id)
+    deleteOrder(orderId);
+    e.target.remove();
+
+    //delete part name on click
+    // if (e.target.tagName === 'H4') {
+    // let partyId = parseInt(e.target.id)
+    // deleteParty(PartyId);
+    // e.target.remove();
+
+
+
+  }
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 });
