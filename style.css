@@ -4,3 +4,7 @@
   border: 1px dashed black;
   margin: 5px;
 }
+
+.disappear {
+  display: none;
+}
