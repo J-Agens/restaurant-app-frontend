@@ -9,20 +9,6 @@
   display: none;
 }
 
-/* ul, li {
-    list-style-type: none;
-}
-
-li {
-    padding-left: 0;
-    margin-left: 0;
-}
-
-li .remove {
-    margin-right: 1em;
-}
-
-li .remove:hover {
+h4:hover {
   color: red;
-  font-weight: bold;
-} */
+}

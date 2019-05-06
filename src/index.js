@@ -16,15 +16,25 @@ function getTables(url){
 function renderTables(tables){
   tableRow.innerHTML = '';
   tables.forEach(table => {
-    let div = document.createElement('div');
-    div.className = "col-lg-3 table-col";
-    tableRow.appendChild(div);
-    div.innerHTML = `
-      <h4 id=table-${table.id}-party-header>Table ${table.id} :</h4>
-      <div id="table-${table.id}-form-container" data-party-id=""></div>
-      <ul id=table-${table.id}-list data-party-id=""><button type="button" data-add-party-to-table="${table.id}">Add Party</button></ul>
-    `
+    renderTable(table);
   })
+}
+
+function renderTable(table) {
+  let div = document.createElement('div');
+  div.className = "col-lg-3 table-col";
+  div.id = `${table.id}-table-col`;
+  tableRow.appendChild(div);
+  renderTableInterior(table.id)
+}
+
+function renderTableInterior(tableId) {
+  const tableDiv = document.getElementById(`${tableId}-table-col`)
+  tableDiv.innerHTML = `
+    <h4 id=table-${tableId}-party-header>Table ${tableId} :</h4>
+    <div id="table-${tableId}-form-container" data-party-id=""></div>
+    <ul id=table-${tableId}-list data-party-id=""><button type="button" data-add-party-to-table="${tableId}">Add Party</button></ul>
+  `
 }
 
 getTables(tablesUrl)
@@ -52,7 +62,7 @@ function renderParty(party) {
   const btn = ul.querySelector('button').classList.add("disappear");
   h4.innerHTML = `Table ${party.table_id}: ${party.name}`;
   party.orders.forEach(function(order) {
-    ul.innerHTML += `<li>${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
+    ul.innerHTML += `<li draggable="true" id=${order.id}-order-li>${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
   });
   formDiv.innerHTML = `
     <button data-add-order-to-party=${party.table_id}>New Order</button>
@@ -62,6 +72,14 @@ function renderParty(party) {
       <input type="submit" value="submit" />
     </form>
     `;
+    const orderForm = formDiv.querySelector('form');
+    orderForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      addOrder(orderForm.name.value, parseInt(orderForm.price.value), party.id)
+      orderForm.dataset.toggle = "off";
+      orderForm.reset();
+      orderForm.classList.add("disappear");
+    })
 }
 
 function addParty(partyName, tableId) {
@@ -103,7 +121,7 @@ function addOrder(itemName, price, partyId) {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
-      "Application": "application/json"
+      "Accept": "application/json"
     },
     body: JSON.stringify(formData)
   };
@@ -124,10 +142,46 @@ function renderOrder(order) {
   const li = document.createElement('li');
   ul.appendChild(li)
   li.textContent = `${order.item_name}, $${order.price}`;
+  li.draggable = "true";
+}
+
+function deleteOrder (orderId) {
+  fetch(`${ordersUrl}/${orderId}`, {method: "DELETE"})
+  .then( res => res.json())
+  .then( order => {
+    order;
+  }).catch(error => {
+    alert(error.message);
+    console.log(error.message)
+  })
+}
+
+function deleteParty(partyId) {
+  fetch(`${partiesUrl}/${partyId}`, {method: "DELETE"})
+  .then(res => res.json())
+  .then(party => party)
+  .catch(error => {
+    alert(error.message);
+    console.log(error.message);
+  })
 }
 
 tableRow.addEventListener('click', function(e) {
-  if (e.target.hasAttribute("data-add-party-to-table")) {
+  if (e.target.hasAttribute("data-add-order-to-party")) {
+    const partyId = parseInt(e.target.dataset.addOrderToParty);
+    // get input to appear
+    // const orderForm = document.getElementById(`party-${partyId}-order-form`);
+    const orderForm = e.target.nextElementSibling;
+    if (orderForm.dataset.toggle === "off") {
+      orderForm.dataset.toggle = "on";
+      orderForm.classList.remove("disappear");
+    } else {
+      orderForm.dataset.toggle = "off";
+      orderForm.reset();
+      orderForm.classList.add("disappear");
+    }
+
+  } else if (e.target.hasAttribute("data-add-party-to-table")) {
     const tableNum = e.target.dataset.addPartyToTable;
     const input = document.createElement('input');
     input.type = "text";
@@ -139,30 +193,16 @@ tableRow.addEventListener('click', function(e) {
         input.classList.add("disappear");
       }
     })
-  }
-});
-
-tableRow.addEventListener('click', function(e) {
-  if (e.target.hasAttribute("data-add-order-to-party")) {
-    const partyId = parseInt(e.target.dataset.addOrderToParty);
-    // get input to appear
-    const orderForm = document.getElementById(`party-${partyId}-order-form`);
-    if (orderForm.dataset.toggle === "off") {
-      orderForm.dataset.toggle = "on";
-      orderForm.classList.remove("disappear");
-    } else {
-      orderForm.dataset.toggle = "off";
-      orderForm.reset();
-      orderForm.classList.add("disappear");
-    }
-    orderForm.addEventListener('submit', function(e) {
-      e.preventDefault();
-      addOrder(orderForm.name.value, parseInt(orderForm.price.value), partyId)
-      orderForm.dataset.toggle = "off";
-      orderForm.reset();
-      orderForm.classList.add("disappear");
-    })
-
+  } else if (e.target.tagName === "LI") {
+      let orderId = parseInt(e.target.id)
+      deleteOrder(orderId);
+      e.target.remove();
+  } else if (e.target.tagName === "H4") {
+    const tableNumber = parseInt(e.target.parentNode.id);
+    const partyIdNum = parseInt(e.target.nextElementSibling.dataset.partyID);
+    // DELTE PARTY AND RE-RENDER TABLE INTERIOR
+    deleteParty(partyIdNum);
+    renderTableInterior(tableNumber);
   }
 });
 
