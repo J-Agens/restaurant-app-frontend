@@ -3,7 +3,6 @@ document.addEventListener("DOMContentLoaded", function() {
 const baseUrl = "http://localhost:3000/";
 const tablesUrl = "http://localhost:3000/tables";
 const partiesUrl = "http://localhost:3000/parties";
-// TESTING ORDERS url
 const ordersUrl = "http://localhost:3000/orders"
 const tableRow = document.querySelector("#table-row");
 
@@ -22,7 +21,8 @@ function renderTables(tables){
     tableRow.appendChild(div);
     div.innerHTML = `
       <h4 id=table-${table.id}-party-header>Table ${table.id} :</h4>
-      <ul id=table-${table.id}-list><button type="button" data-add-party-to-table="${table.id}">Add Party</button></ul>
+      <div id="table-${table.id}-form-container" data-party-id=""></div>
+      <ul id=table-${table.id}-list data-party-id=""><button type="button" data-add-party-to-table="${table.id}">Add Party</button></ul>
     `
   })
 }
@@ -45,13 +45,23 @@ function renderParties(parties){
 function renderParty(party) {
   const tableList = document.getElementById(`table-${party.table.id}-list`)
   const h4 = document.getElementById(`table-${party.table.id}-party-header`);
+  const formDiv = document.getElementById(`table-${party.table_id}-form-container`);
+  formDiv.dataset.partyID = party.id;
   const ul = document.getElementById(`table-${party.table.id}-list`);
+  ul.dataset.partyId = party.id;
   const btn = ul.querySelector('button').classList.add("disappear");
   h4.innerHTML = `Table ${party.table_id}: ${party.name}`;
   party.orders.forEach(function(order) {
-    ul.innerHTML += `<li>${order.item_name}<span class=order-status>Status: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
-  })
-  ul.innerHTML += `<button data-add-order-to-party=${party.table_id}>New Order</button>`;
+    ul.innerHTML += `<li>${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
+  });
+  formDiv.innerHTML = `
+    <button data-add-order-to-party=${party.table_id}>New Order</button>
+    <form id=party-${party.id}-order-form data-toggle="off" class="disappear">
+      <input type="text" name="name" placeholder="item name"/>
+      <input type="number" name="price" placeholder="price" />
+      <input type="submit" value="submit" />
+    </form>
+    `;
 }
 
 function addParty(partyName, tableId) {
@@ -74,6 +84,9 @@ function addParty(partyName, tableId) {
   .then(party => {
     console.log(party);
     renderParty(party);
+  }).catch(error => {
+    alert(error.message);
+    console.log(error.message);
   })
 }
 
@@ -82,7 +95,6 @@ getParties(partiesUrl);
 function addOrder(itemName, price, partyId) {
   let formData = {
     item_name: itemName,
-    served: false,
     price: price,
     party_id: partyId
   };
@@ -108,8 +120,10 @@ function addOrder(itemName, price, partyId) {
 }
 
 function renderOrder(order) {
-  const ul = document.getElementById(`table-${party.table.id}-list`);
-  
+  const ul = document.body.querySelector(`[data-party-id='${order.party_id}']`);
+  const li = document.createElement('li');
+  ul.appendChild(li)
+  li.textContent = `${order.item_name}, $${order.price}`;
 }
 
 tableRow.addEventListener('click', function(e) {
@@ -130,21 +144,23 @@ tableRow.addEventListener('click', function(e) {
 
 tableRow.addEventListener('click', function(e) {
   if (e.target.hasAttribute("data-add-order-to-party")) {
+    const partyId = parseInt(e.target.dataset.addOrderToParty);
     // get input to appear
-    const itemNameInput = document.createElement('input');
-    itemNameInput.type = "text";
-    itemNameInput.placeholder = "Item Name";
-    const priceInput = document.createElement('input');
-    priceInput.type = "text";
-    priceInput.placeholder = "Item Price";
-    e.target.parentNode.appendChild(itemNameInput);
-    e.target.parentNode.appendChild(priceInput);
-    itemNameInput.addEventListener('keydown', function(e) {
-      if (e.keyCode === 13) {
-        // add order to ul --> post to /orders
-        itemNameInput.classList.add("disappear");
-        // render order
-      }
+    const orderForm = document.getElementById(`party-${partyId}-order-form`);
+    if (orderForm.dataset.toggle === "off") {
+      orderForm.dataset.toggle = "on";
+      orderForm.classList.remove("disappear");
+    } else {
+      orderForm.dataset.toggle = "off";
+      orderForm.reset();
+      orderForm.classList.add("disappear");
+    }
+    orderForm.addEventListener('submit', function(e) {
+      e.preventDefault();
+      addOrder(orderForm.name.value, parseInt(orderForm.price.value), partyId)
+      orderForm.dataset.toggle = "off";
+      orderForm.reset();
+      orderForm.classList.add("disappear");
     })
 
   }
