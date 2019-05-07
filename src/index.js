@@ -33,7 +33,7 @@ function renderTableInterior(tableId) {
   tableDiv.innerHTML = `
     <h4 id=table-${tableId}-party-header>Table ${tableId} :</h4>
     <div id="table-${tableId}-form-container" data-party-id=""></div>
-    <ul id=table-${tableId}-list data-party-id=""><button type="button" data-add-party-to-table="${tableId}">Add Party</button></ul>
+    <ul id=table-${tableId}-list data-party-id="" class="holder"><button type="button" data-add-party-to-table="${tableId}">Add Party</button></ul>
   `
 }
 
@@ -62,7 +62,7 @@ function renderParty(party) {
   const btn = ul.querySelector('button').classList.add("disappear");
   h4.innerHTML = `Table ${party.table_id}: ${party.name}`;
   party.orders.forEach(function(order) {
-    ul.innerHTML += `<li draggable="true" id=${order.id}-order-li>${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
+    ul.innerHTML += `<li draggable="true" id=${order.id}-order-li class="box">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
   });
   formDiv.innerHTML = `
     <button data-add-order-to-party=${party.table_id}>New Order</button>
@@ -205,5 +205,41 @@ tableRow.addEventListener('click', function(e) {
     renderTableInterior(tableNumber);
   }
 });
+
+// ADD DRAG AND DROP FUNCITONALITY
+
+const box = document.getElementsByClassName('box')[0];
+const containers = document.getElementsByClassName('holder');
+for(const container of containers) {
+  container.addEventListener("dragover", dragover(e))
+  container.addEventListener("dragenter", dragenter(e))
+  container.addEventListener("drop", drop())
+}
+
+function dragstart() {
+    this.className += " held";
+    setTimeout(()=>this.className="disappear", 0)
+  }
+
+function dragend() {
+    this.className = "box"
+  }
+function dragover(e) {
+    e.preventDefault()
+  }
+
+function dragenter(e) {
+  e.preventDefault()
+  this.className += " hovered"
+}
+
+function dragleave() {
+  this.className = "holder"
+}
+
+function drop() {
+  this.className = "holder"
+  this.append(App.box)
+}
 
 });
