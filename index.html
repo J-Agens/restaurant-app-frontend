@@ -8,6 +8,38 @@
     <script type="text/javascript" src="./src/index.js"></script>
     <script type="text/javascript">
     const ordersUrl = "http://localhost:3000/orders"
+    const trash = document.querySelector('.trash');
+    function renderOrder(order) {
+      const ul = document.body.querySelector(`[data-party-id='${order.party_id}']`);
+      ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
+    }
+    function addOrder(itemName, price, partyId) {
+      let formData = {
+        item_name: itemName,
+        price: price,
+        party_id: partyId
+      };
+
+      let configObj = {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "Accept": "application/json"
+        },
+        body: JSON.stringify(formData)
+      };
+
+      fetch(ordersUrl, configObj)
+      .then(res => res.json())
+      .then(order => {
+        renderOrder(order)
+      })
+      .catch(error => {
+        alert(error.message);
+        console.log(error.message);
+      })
+    }
+
     function deleteOrder (orderId) {
       fetch(`${ordersUrl}/${orderId}`, {method: "DELETE"})
       .then( res => res.json())
@@ -19,23 +51,45 @@
       })
     }
     function allowDrop(ev) {
+      console.log("running")
       ev.preventDefault();
     }
 
     function drag(ev) {
+      console.log("running")
       ev.dataTransfer.setData("Text",ev.target.id);
     }
 
     function drop(ev){
       ev.preventDefault();
-      var data=ev.dataTransfer.getData("Text");
-      var el = document.getElementById(data);
+      console.log("running")
+      let data=ev.dataTransfer.getData("Text");
+      let el = document.getElementById(data);
       el.parentNode.removeChild(el);
       let numberPattern = /\d+/g;
       let orderId = parseInt(data.match(numberPattern)[0]);
       deleteOrder(orderId);
     }
 
+    function allowDropMenuItem(ev) {
+      // console.log("allowDropMenuItem(ev)");
+      ev.preventDefault();
+    }
+
+    function dragMenuItem(ev) {
+      console.log("dragMenu");
+      ev.dataTransfer.setData("Text",ev.target.id);
+    }
+
+    function dropMenuItem(ev) {
+      ev.preventDefault();
+      let data=ev.dataTransfer.getData("Text");
+      let el = document.getElementById(data);
+      let itemName = el.textContent;
+      let price = 1;
+      let partyId = parseInt(ev.target.dataset.partyIdNumber)
+      addOrder(itemName, price, partyId)
+    }
     </script>
   </head>
   <body>
@@ -48,7 +102,10 @@
       <div class="row justify-content-md-center">
         <div class="col-10">
           <div class="menu">
-
+            <ul id="menuItems">
+              <p draggable="true" id="100" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pizza</p>
+              <p draggable="true" id="101" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Beer</p>
+            </ul>
           </div>
         </div>
       </div>
@@ -58,7 +115,7 @@
       <div class="row justify-content-md-center">
         <div class="col-10">
           <div class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <h1 class="gray-text">Trash</h1>
+            <!-- <h1 class="gray-text">Trash</h1> -->
           </div>
         </div>
       </div>

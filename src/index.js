@@ -65,7 +65,7 @@ function renderParty(party) {
     ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
   });
   formDiv.innerHTML = `
-    <button data-add-order-to-party=${party.table_id}>New Order</button>
+    <button data-add-order-to-party=${party.table_id} data-party-id-number=${party.id} ondrop="dropMenuItem(event)" ondragover="allowDropMenuItem(event)">New Order</button>
     <form id=party-${party.id}-order-form data-toggle="off" class="disappear">
       <input type="text" name="name" placeholder="item name"/>
       <input type="number" name="price" placeholder="price" />
@@ -202,7 +202,6 @@ tableRow.addEventListener('click', function(e) {
     renderTableInterior(tableNumber);
   }
 });
-
 
 
 });

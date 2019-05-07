@@ -31,3 +31,9 @@ h4:hover {
   color: #D3D3D3;
   text-align: center;
 }
+
+.magic-form {
+  background-color: #ffedad;
+  /* min-height: 50px;
+  min-width: 50px; */
+}
