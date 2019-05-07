@@ -139,10 +139,7 @@ function addOrder(itemName, price, partyId) {
 
 function renderOrder(order) {
   const ul = document.body.querySelector(`[data-party-id='${order.party_id}']`);
-  const li = document.createElement('li');
-  ul.appendChild(li)
-  li.textContent = `${order.item_name}, $${order.price}`;
-  li.draggable = "true";
+  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
 }
 
 function deleteOrder (orderId) {
