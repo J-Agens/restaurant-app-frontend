@@ -93,15 +93,31 @@
     </script>
   </head>
   <body>
-    <div class="container-fluid">
+    <!-- <div class="container-fluid">
       <div class="row justify-content-md-center">
         <div class="col-9">
-          <h1>Restaurant Order Visualizer</h1>
+          <h1>Flatiron Kitchen</h1>
         </div>
+        <div class="col-10">
+         <div id='menu' class="sidenav">
+           <h1>Menu</h1>
+           <div>
+             <h4>Appetizers</h4>
+             <div>
+               <h4>Entrées</h4>
+             </div>
+             <div>
+               <h4>
+                 Drinks
+               </h4>
+             </div>
+           </div>
+         </div>
+       </div>
       </div>
       <div class="row justify-content-md-center">
         <div class="col-10">
-          <div class="menu">
+          <div id="menu" class="sidenav">
             <ul id="menuItems">
               <p draggable="true" id="100" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pizza</p>
               <p draggable="true" id="101" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Beer</p>
@@ -113,12 +129,62 @@
 
       </div>
       <div class="row justify-content-md-center">
-        <div class="col-10">
+        <div class="col-2">
           <div class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
-            <!-- <h1 class="gray-text">Trash</h1> -->
+           <img src="https://image.flaticon.com/icons/svg/149/149332.svg" alt="">
+           <h1 class="gray-text">Trash</h1>
+         </div>
+        </div>
+      </div>
+    </div> -->
+    <div class="container-fluid">
+    <div class="row justify-content-md-center">
+      <div class="col-9">
+        <h1 class="title">Flatiron Kitchen</h1>
+      </div>
+
+      <div class="col-10">
+        <div id='menu' class="sidenav">
+          <h1>Menu</h1>
+          <div>
+            <h4>Appetizers</h4>
+              <p draggable="true" id="100" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Mozzarella Sticks</p>
+              <p draggable="true" id="101" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Jalapeno Poppers</p>
+            <div>
+              <h4>Entrées</h4>
+              <ul id="menuItems">
+                <p draggable="true" id="200" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pizza</p>
+                <p draggable="true" id="201" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Wings</p>
+              </ul>
+            </div>
+            <div>
+              <h4>
+                Drinks
+              </h4>
+              <ul id="drinkItems">
+                <p draggable="true" id="300" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Soda</p>
+                <p draggable="true" id="301" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Beer</p>
+              </ul>
+            </div>
           </div>
         </div>
       </div>
+
+
+
     </div>
+    <div class="row justify-content-md-center">
+    </div>
+    <div class="row justify-content-md-center" id="table-row">
+    </div>
+    <div class="row justify-content-md-center">
+      <div class="col-3">
+        <div class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
+          <img src="https://image.flaticon.com/icons/svg/149/149332.svg" alt="">
+          <h1 class="gray-text">Trash</h1>
+        </div>
+      </div>
+    </div>
+  </div>
   </body>
 </html>

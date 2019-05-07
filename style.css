@@ -1,4 +1,4 @@
-.menu {
+/* .menu {
   background-color: #def7e1;
   min-height: 100px;
   border: 1px dashed black;
@@ -30,10 +30,79 @@ h4:hover {
 .gray-text {
   color: #D3D3D3;
   text-align: center;
+} */
+
+body{
+ background-color: #5a96bb;
+ opacity: .9;
+  background: #007bff;
+ background: linear-gradient(to right, #0062E6, #33AEFF);
+/  *font-family: "Playfair Display Black";*/
+ margin: 0.5rem 0;
+ font-size: 0.9rem;
+ letter-spacing: .1rem;
+
 }
 
-.magic-form {
-  background-color: #ffedad;
-  /* min-height: 50px;
-  min-width: 50px; */
+.title {
+  color: white;
+}
+
+.menu {
+ border-radius: 25px;
+ background-color: #F0FFFF;
+ min-height: 100px;
+ border: 1px solid black;
+ margin: 30px;
+}
+
+.trash {
+ border-radius: 25px;
+ background-color: white;
+ min-height: 100px;
+ border: 0px solid black;
+ margin: 5px;
+}
+
+.table-col{
+ background-color: white;
+ margin:10px;
+ border: none;
+ border-radius: 1rem;
+ transition: all 0.2s;
+ box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+}
+
+
+
+.disappear {
+ display: none;
+}
+
+h4:hover {
+ color: navy;
+}
+
+.gray-text {
+ color: black;
+ text-align: center;
+}
+
+
+
+.sidenav {
+ color: white;
+ height: 100%; /* Full-height: remove this if you want "auto" height */
+ width: 160px; /* Set the width of the sidebar */
+ position: fixed; /* Fixed Sidebar (stay in place on scroll) */
+ z-index: 1; /* Stay on top */
+ top: 0; /* Stay at the top */
+ left: 0;
+ background-color: #111; /* Black */
+ overflow-x: hidden; /* Disable horizontal scroll */
+ padding-top: 20px;
+}
+
+img {
+  max-height: 100px;
 }
