@@ -1,3 +1,10 @@
+.menu {
+  background-color: #def7e1;
+  min-height: 100px;
+  border: 1px dashed black;
+  margin: 5px;
+}
+
 .table-col{
   background-color: #a5dee5;
   min-height: 200px;

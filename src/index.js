@@ -22,7 +22,7 @@ function renderTables(tables){
 
 function renderTable(table) {
   let div = document.createElement('div');
-  div.className = "col-lg-3 table-col";
+  div.className = "col-3 table-col";
   div.id = `${table.id}-table-col`;
   tableRow.appendChild(div);
   renderTableInterior(table.id)

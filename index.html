@@ -8,13 +8,20 @@
     <script type="text/javascript" src="./src/index.js"></script>
   </head>
   <body>
-    <div class="container">
-      <div class="row">
-        <div class="col">
+    <div class="container-fluid">
+      <div class="row justify-content-md-center">
+        <div class="col-9">
           <h1>Restaurant Order Visualizer</h1>
         </div>
       </div>
-      <div class="row" id="table-row">
+      <div class="row justify-content-md-center">
+        <div class="col-9">
+          <div class="menu" id="dropdiv" ondrop="drop(event)" ondragover="allowDrop(event)">
+
+          </div>
+        </div>
+      </div>
+      <div class="row justify-content-md-center" id="table-row">
 
       </div>
     </div>
