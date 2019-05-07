@@ -33,7 +33,7 @@ function renderTableInterior(tableId) {
   tableDiv.innerHTML = `
     <h4 id=table-${tableId}-party-header>Table ${tableId} :</h4>
     <div id="table-${tableId}-form-container" data-party-id=""></div>
-    <ul id=table-${tableId}-list data-party-id="" class="holder"><button type="button" data-add-party-to-table="${tableId}">Add Party</button></ul>
+    <ul id="allItems" runat="server" class=table-${tableId}-list data-party-id=""><button type="button" data-add-party-to-table="${tableId}">Add Party</button></ul>
   `
 }
 
@@ -53,16 +53,16 @@ function renderParties(parties){
 }
 
 function renderParty(party) {
-  const tableList = document.getElementById(`table-${party.table.id}-list`)
+  const tableList = document.getElementsByClassName(`table-${party.table.id}-list`)[0]
   const h4 = document.getElementById(`table-${party.table.id}-party-header`);
   const formDiv = document.getElementById(`table-${party.table_id}-form-container`);
   formDiv.dataset.partyID = party.id;
-  const ul = document.getElementById(`table-${party.table.id}-list`);
+  const ul = document.getElementsByClassName(`table-${party.table.id}-list`)[0];
   ul.dataset.partyId = party.id;
   const btn = ul.querySelector('button').classList.add("disappear");
   h4.innerHTML = `Table ${party.table_id}: ${party.name}`;
   party.orders.forEach(function(order) {
-    ul.innerHTML += `<li draggable="true" id=${order.id}-order-li class="box">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
+    ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
   });
   formDiv.innerHTML = `
     <button data-add-order-to-party=${party.table_id}>New Order</button>
@@ -193,11 +193,11 @@ tableRow.addEventListener('click', function(e) {
         input.classList.add("disappear");
       }
     })
-  } else if (e.target.tagName === "LI") {
+  } /* else if (e.target.tagName === "LI") {
       let orderId = parseInt(e.target.id)
       deleteOrder(orderId);
       e.target.remove();
-  } else if (e.target.tagName === "H4") {
+  } */ else if (e.target.tagName === "H4") {
     const tableNumber = parseInt(e.target.parentNode.id);
     const partyIdNum = parseInt(e.target.nextElementSibling.dataset.partyID);
     // DELTE PARTY AND RE-RENDER TABLE INTERIOR
@@ -206,40 +206,6 @@ tableRow.addEventListener('click', function(e) {
   }
 });
 
-// ADD DRAG AND DROP FUNCITONALITY
 
-const box = document.getElementsByClassName('box')[0];
-const containers = document.getElementsByClassName('holder');
-for(const container of containers) {
-  container.addEventListener("dragover", dragover(e))
-  container.addEventListener("dragenter", dragenter(e))
-  container.addEventListener("drop", drop())
-}
-
-function dragstart() {
-    this.className += " held";
-    setTimeout(()=>this.className="disappear", 0)
-  }
-
-function dragend() {
-    this.className = "box"
-  }
-function dragover(e) {
-    e.preventDefault()
-  }
-
-function dragenter(e) {
-  e.preventDefault()
-  this.className += " hovered"
-}
-
-function dragleave() {
-  this.className = "holder"
-}
-
-function drop() {
-  this.className = "holder"
-  this.append(App.box)
-}
 
 });

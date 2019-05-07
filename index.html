@@ -6,6 +6,37 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
     <script type="text/javascript" src="./src/index.js"></script>
+    <script type="text/javascript">
+    const ordersUrl = "http://localhost:3000/orders"
+    function deleteOrder (orderId) {
+      fetch(`${ordersUrl}/${orderId}`, {method: "DELETE"})
+      .then( res => res.json())
+      .then( order => {
+        order;
+      }).catch(error => {
+        alert(error.message);
+        console.log(error.message)
+      })
+    }
+    function allowDrop(ev) {
+      ev.preventDefault();
+    }
+
+    function drag(ev) {
+      ev.dataTransfer.setData("Text",ev.target.id);
+    }
+
+    function drop(ev){
+      ev.preventDefault();
+      var data=ev.dataTransfer.getData("Text");
+      var el = document.getElementById(data);
+      el.parentNode.removeChild(el);
+      let numberPattern = /\d+/g;
+      let orderId = parseInt(data.match(numberPattern)[0]);
+      deleteOrder(orderId);
+    }
+
+    </script>
   </head>
   <body>
     <div class="container-fluid">
@@ -14,15 +45,16 @@
           <h1>Restaurant Order Visualizer</h1>
         </div>
       </div>
+
+      <div class="row justify-content-md-center" id="table-row">
+
+      </div>
       <div class="row justify-content-md-center">
-        <div class="col-9">
-          <div class="menu">
+        <div class="col-10">
+          <div class="menu" ondrop="drop(event)" ondragover="allowDrop(event)">
 
           </div>
         </div>
-      </div>
-      <div class="row justify-content-md-center" id="table-row">
-
       </div>
     </div>
   </body>
