@@ -35,9 +35,9 @@ h4:hover {
 body{
  background-color: #5a96bb;
  opacity: .9;
-  background: #007bff;
+ background: #007bff;
  background: linear-gradient(to right, #0062E6, #33AEFF);
-/  *font-family: "Playfair Display Black";*/
+ font-family: 'Roboto', sans-serif;
  margin: 0.5rem 0;
  font-size: 0.9rem;
  letter-spacing: .1rem;
@@ -46,6 +46,18 @@ body{
 
 .title {
   color: white;
+  font-family: 'News Cycle', sans-serif;
+  text-transform: uppercase;
+}
+
+.my-header {
+  font-family: 'Raleway', sans-serif;
+  /* text-transform: uppercase; */
+}
+
+.sidenav {
+  padding-top: 20px;
+  padding-left: 20px;
 }
 
 .menu {
@@ -56,23 +68,48 @@ body{
  margin: 30px;
 }
 
+.menu-header {
+  padding-top: 5px;
+  /* padding-bottom: 5px; */
+  border-top: 1px groove white;
+}
+
+.menu-item {
+  letter-spacing: 0;
+  font-style: italic;
+}
+
 .trash {
  border-radius: 25px;
  background-color: white;
  min-height: 100px;
  border: 0px solid black;
  margin: 5px;
+ padding-top: 10px;
+ padding-bottom: 10px;
+ box-shadow: 5px 10px rgba(0, 0, 0, 0.1);
 }
 
 .table-col{
  background-color: white;
+ padding: 15px;
  margin:10px;
  border: none;
  border-radius: 1rem;
  transition: all 0.2s;
- box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1);
+ /* box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.1); */
+ box-shadow: 5px 10px rgba(0, 0, 0, 0.1);
 }
 
+li {
+  font-weight: bold;
+}
+
+ul {
+  list-style-type: none;
+  /* margin: 0;
+  padding: 0; */
+}
 
 
 .disappear {
@@ -88,7 +125,16 @@ h4:hover {
  text-align: center;
 }
 
+.my-btn {
+  width: 50%;
+  margin-bottom: 10px;
+}
 
+.other-btn {
+  width: 50%;
+  background-color: #03A678;
+  border: 1px solid #03A678;
+}
 
 .sidenav {
  color: white;
@@ -110,4 +156,28 @@ img {
 .order-status {
   color: #0062E6;
   font-weight: bold;
+}
+
+.form-hidden {
+  display: none;
+ }
+
+ input {
+   margin-top: 5px;
+   width: 50%;
+   /* background-color: #33AEFF; */
+   background-color: #111;
+   color: white;
+   border: none;
+   box-shadow: 2px 4px rgba(0, 0, 0, 0.1);
+   border-radius: 1rem;
+   text-align: center;
+ }
+
+
+::placeholder {
+  color: white;
+  opacity: 0.75;
+  text-align: center;
+  font-style: italic;
 }

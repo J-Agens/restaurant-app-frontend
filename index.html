@@ -5,6 +5,7 @@
     <title>Restaurant Order Visualizer</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="./style.css">
+    <link href="https://fonts.googleapis.com/css?family=Raleway|Roboto" rel="stylesheet">
     <script type="text/javascript" src="./src/index.js"></script>
     <script type="text/javascript">
     const ordersUrl = "http://localhost:3000/orders"
@@ -77,7 +78,6 @@
     }
 
     function dragMenuItem(ev) {
-      console.log("dragMenu");
       ev.dataTransfer.setData("Text",ev.target.id);
     }
 
@@ -145,26 +145,34 @@
 
       <div class="col-10">
         <div id='menu' class="sidenav">
-          <h1>Menu</h1>
+          <h1 class="my-header">Menu</h1>
           <div>
-            <h4>Appetizers</h4>
-              <p draggable="true" id="100" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Mozzarella Sticks</p>
-              <p draggable="true" id="101" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Jalapeno Poppers</p>
+            <h4 class="my-header menu-header">Appetizers</h4>
+              <p class="menu-item" draggable="true" id="100" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Mozzarella Sticks</p>
+              <p class="menu-item" draggable="true" id="101" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Jalapeno Poppers</p>
+              <p class="menu-item" draggable="true" id="102" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Caesar Salad</p>
+              <p class="menu-item" draggable="true" id="103" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Soup of the Day</p>
             <div>
-              <h4>Entrées</h4>
-              <ul id="menuItems">
-                <p draggable="true" id="200" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pizza</p>
-                <p draggable="true" id="201" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Wings</p>
-              </ul>
+              <h4 class="my-header menu-header">Entrées</h4>
+              <!-- <ul id="menuItems"> -->
+                <p class="menu-item" draggable="true" id="200" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pizza</p>
+                <p class="menu-item" draggable="true" id="201" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Barbeque Ribs</p>
+                <p class="menu-item" draggable="true" id="202" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Cheeseburger</p>
+                <p class="menu-item" draggable="true" id="203" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pancakes</p>
+                <p class="menu-item" draggable="true" id="204" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Spaghetti & Meatballs</p>
+                <p class="menu-item" draggable="true" id="205" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Lasagne</p>
+                <p class="menu-item" draggable="true" id="206" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Sushi</p>
+                <p class="menu-item" draggable="true" id="207" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Giant Burrito</p>
+              <!-- </ul> -->
             </div>
             <div>
-              <h4>
+              <h4 class="my-header menu-header">
                 Drinks
               </h4>
-              <ul id="drinkItems">
-                <p draggable="true" id="300" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Soda</p>
-                <p draggable="true" id="301" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Beer</p>
-              </ul>
+              <!-- <ul id="drinkItems"> -->
+                <p class="menu-item" draggable="true" id="300" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Soda</p>
+                <p class="menu-item" draggable="true" id="301" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Beer</p>
+              <!-- </ul> -->
             </div>
           </div>
         </div>
@@ -181,7 +189,7 @@
       <div class="col-3">
         <div class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
           <img src="https://image.flaticon.com/icons/svg/149/149332.svg" alt="">
-          <h1 class="gray-text">Trash</h1>
+          <!-- <h1 class="gray-text my-header">Trash</h1> -->
         </div>
       </div>
     </div>

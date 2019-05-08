@@ -30,9 +30,9 @@ function renderTable(table) {
 function renderTableInterior(tableId) {
   const tableDiv = document.getElementById(`${tableId}-table-col`)
   tableDiv.innerHTML = `
-    <h4 id=table-${tableId}-party-header>Table ${tableId} :</h4>
+    <h4 class="my-header" id=table-${tableId}-party-header>Table ${tableId} :</h4>
     <div id="table-${tableId}-form-container" data-party-id=""></div>
-    <ul id="allItems" runat="server" class=table-${tableId}-list data-party-id=""><button type="button" data-add-party-to-table="${tableId}">Add Party</button></ul>
+    <ul id="allItems" runat="server" class=table-${tableId}-list data-party-id=""><button class="btn btn-primary other-btn" type="button" data-add-party-to-table="${tableId}">Add Party</button></ul>
   `
 }
 
@@ -70,11 +70,11 @@ function renderParty(party) {
     }
   })
   formDiv.innerHTML = `
-    <button data-add-order-to-party=${party.table_id} data-party-id-number=${party.id} ondrop="dropMenuItem(event)" ondragover="allowDropMenuItem(event)">New Order</button>
+    <button class="btn btn-primary my-btn" data-add-order-to-party=${party.table_id} data-party-id-number=${party.id} ondrop="dropMenuItem(event)" ondragover="allowDropMenuItem(event)">New Order</button>
     <form id=party-${party.id}-order-form data-toggle="off" class="disappear">
-      <input type="text" name="name" placeholder="item name"/>
-      <input type="number" name="price" placeholder="price" />
-      <input type="submit" value="submit" />
+      <input type="text" name="name" placeholder="item name..."/>
+      <input class="form-hidden" type="number" name="price" placeholder="price" />
+      <input class="form-hidden" type="submit" value="submit" />
     </form>
     `;
     const orderForm = formDiv.querySelector('form');
@@ -144,7 +144,7 @@ function addOrder(itemName, price, partyId) {
 
 function renderOrder(order) {
   const ul = document.body.querySelector(`[data-party-id='${order.party_id}']`);
-  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status data-order=${order.id}>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
+  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li order-item ondragstart="drag(event)">${order.item_name}<span class=order-status data-order=${order.id}>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
 }
 
 function deleteOrder (orderId) {
@@ -211,6 +211,7 @@ tableRow.addEventListener('click', function(e) {
     const tableNum = e.target.dataset.addPartyToTable;
     const input = document.createElement('input');
     input.type = "text";
+    input.placeholder = "party name...";
     e.target.classList.add("disappear");
     e.target.parentNode.appendChild(input);
     input.addEventListener('keydown', function(e) {
