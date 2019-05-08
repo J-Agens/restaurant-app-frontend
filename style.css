@@ -106,3 +106,8 @@ h4:hover {
 img {
   max-height: 100px;
 }
+
+.order-status {
+  color: #0062E6;
+  font-weight: bold;
+}

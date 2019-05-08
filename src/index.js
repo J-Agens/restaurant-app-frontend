@@ -6,7 +6,6 @@ const partiesUrl = "http://localhost:3000/parties";
 const ordersUrl = "http://localhost:3000/orders"
 const tableRow = document.querySelector("#table-row");
 
-
 function getTables(url){
   fetch(url)
     .then(res => res.json() )
@@ -62,8 +61,14 @@ function renderParty(party) {
   const btn = ul.querySelector('button').classList.add("disappear");
   h4.innerHTML = `Table ${party.table_id}: ${party.name}`;
   party.orders.forEach(function(order) {
-    ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
+    ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class="order-status" data-order=${order.id}>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
   });
+  const orderStatusIndicators = document.body.querySelectorAll('.order-status');
+  orderStatusIndicators.forEach(element => {
+    if (element.textContent === ": SERVED") {
+      element.style.color = "#03A678";
+    }
+  })
   formDiv.innerHTML = `
     <button data-add-order-to-party=${party.table_id} data-party-id-number=${party.id} ondrop="dropMenuItem(event)" ondragover="allowDropMenuItem(event)">New Order</button>
     <form id=party-${party.id}-order-form data-toggle="off" class="disappear">
@@ -139,7 +144,7 @@ function addOrder(itemName, price, partyId) {
 
 function renderOrder(order) {
   const ul = document.body.querySelector(`[data-party-id='${order.party_id}']`);
-  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
+  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status data-order=${order.id}>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
 }
 
 function deleteOrder (orderId) {
@@ -153,6 +158,29 @@ function deleteOrder (orderId) {
   })
 }
 
+function changeOrderStatus(orderId) {
+  let formData = {
+    served: true
+  };
+
+  let configObj = {
+    method: "PATCH",
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+    body: JSON.stringify(formData)
+  };
+
+  fetch(`${ordersUrl}/${orderId}`, configObj)
+  .then(res => res.json())
+  .then(order => order)
+  .catch(error => {
+    alert(error.message);
+    console.log(error.message);
+  })
+}
+
 function deleteParty(partyId) {
   fetch(`${partiesUrl}/${partyId}`, {method: "DELETE"})
   .then(res => res.json())
@@ -162,6 +190,7 @@ function deleteParty(partyId) {
     console.log(error.message);
   })
 }
+
 
 tableRow.addEventListener('click', function(e) {
   if (e.target.hasAttribute("data-add-order-to-party")) {
@@ -190,16 +219,17 @@ tableRow.addEventListener('click', function(e) {
         input.classList.add("disappear");
       }
     })
-  } /* else if (e.target.tagName === "LI") {
-      let orderId = parseInt(e.target.id)
-      deleteOrder(orderId);
-      e.target.remove();
-  } */ else if (e.target.tagName === "H4") {
-    const tableNumber = parseInt(e.target.parentNode.id);
-    const partyIdNum = parseInt(e.target.nextElementSibling.dataset.partyID);
-    // DELTE PARTY AND RE-RENDER TABLE INTERIOR
-    deleteParty(partyIdNum);
-    renderTableInterior(tableNumber);
+  } else if (e.target.tagName === "H4") {
+      const tableNumber = parseInt(e.target.parentNode.id);
+      const partyIdNum = parseInt(e.target.nextElementSibling.dataset.partyID);
+      // DELETE PARTY AND RE-RENDER TABLE INTERIOR
+      deleteParty(partyIdNum);
+      renderTableInterior(tableNumber);
+  } else if (e.target.className === "order-status") {
+      const orderId = parseInt(e.target.dataset.order);
+      changeOrderStatus(orderId);
+      e.target.textContent = ": SERVED";
+      e.target.style.color = "#03A678"
   }
 });
 
