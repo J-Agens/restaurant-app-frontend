@@ -51,8 +51,9 @@
         console.log(error.message)
       })
     }
+    
     function allowDrop(ev) {
-      console.log("running")
+      ev.target.style.backgroundColor = "red"
       ev.preventDefault();
     }
 
@@ -63,8 +64,17 @@
 
     function drop(ev){
       ev.preventDefault();
-      console.log("running")
-      let data=ev.dataTransfer.getData("Text");
+      const trashIcon = document.querySelector('#trash-icon')
+      const trashDiv = document.querySelector('.trash')
+      if (ev.target === trashIcon) {
+        ev.target.style.backgroundColor = "white";
+        ev.target.parentNode.style.backgroundColor = "white";
+      } else if (ev.target === trashDiv) {
+        ev.target.style.backgroundColor = "white";
+        ev.target.childNodes[0].style.backgroundColor = "white";
+      }
+
+      let data = ev.dataTransfer.getData("Text");
       let el = document.getElementById(data);
       el.parentNode.removeChild(el);
       let numberPattern = /\d+/g;
@@ -93,50 +103,6 @@
     </script>
   </head>
   <body>
-    <!-- <div class="container-fluid">
-      <div class="row justify-content-md-center">
-        <div class="col-9">
-          <h1>Flatiron Kitchen</h1>
-        </div>
-        <div class="col-10">
-         <div id='menu' class="sidenav">
-           <h1>Menu</h1>
-           <div>
-             <h4>Appetizers</h4>
-             <div>
-               <h4>Entrées</h4>
-             </div>
-             <div>
-               <h4>
-                 Drinks
-               </h4>
-             </div>
-           </div>
-         </div>
-       </div>
-      </div>
-      <div class="row justify-content-md-center">
-        <div class="col-10">
-          <div id="menu" class="sidenav">
-            <ul id="menuItems">
-              <p draggable="true" id="100" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pizza</p>
-              <p draggable="true" id="101" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Beer</p>
-            </ul>
-          </div>
-        </div>
-      </div>
-      <div class="row justify-content-md-center" id="table-row">
-
-      </div>
-      <div class="row justify-content-md-center">
-        <div class="col-2">
-          <div class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
-           <img src="https://image.flaticon.com/icons/svg/149/149332.svg" alt="">
-           <h1 class="gray-text">Trash</h1>
-         </div>
-        </div>
-      </div>
-    </div> -->
     <div class="container-fluid">
     <div class="row justify-content-md-center">
       <div class="col-9">
@@ -188,7 +154,7 @@
     <div class="row justify-content-md-center">
       <div class="col-3">
         <div class="trash" ondrop="drop(event)" ondragover="allowDrop(event)">
-          <img src="https://image.flaticon.com/icons/svg/149/149332.svg" alt="">
+          <img id="trash-icon" src="https://image.flaticon.com/icons/svg/149/149332.svg" alt="">
           <!-- <h1 class="gray-text my-header">Trash</h1> -->
         </div>
       </div>

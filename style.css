@@ -88,6 +88,8 @@ body{
  padding-top: 10px;
  padding-bottom: 10px;
  box-shadow: 5px 10px rgba(0, 0, 0, 0.1);
+ padding-left: 20px;
+ padding-right: 20px;
 }
 
 .table-col{
@@ -151,6 +153,7 @@ h4:hover {
 
 img {
   max-height: 100px;
+  width: 100%;
 }
 
 .order-status {
