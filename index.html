@@ -51,7 +51,7 @@
         console.log(error.message)
       })
     }
-    
+
     function allowDrop(ev) {
       ev.target.style.backgroundColor = "red"
       ev.preventDefault();
@@ -68,10 +68,10 @@
       const trashDiv = document.querySelector('.trash')
       if (ev.target === trashIcon) {
         ev.target.style.backgroundColor = "white";
-        ev.target.parentNode.style.backgroundColor = "white";
+        trashDiv.style.backgroundColor = "white";
       } else if (ev.target === trashDiv) {
         ev.target.style.backgroundColor = "white";
-        ev.target.childNodes[0].style.backgroundColor = "white";
+        trashIcon.style.backgroundColor = "white";
       }
 
       let data = ev.dataTransfer.getData("Text");
