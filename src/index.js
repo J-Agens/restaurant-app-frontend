@@ -200,7 +200,6 @@ tableRow.addEventListener('click', function(e) {
   if (e.target.hasAttribute("data-add-order-to-party")) {
     const partyId = parseInt(e.target.dataset.addOrderToParty);
     // get input to appear
-    // const orderForm = document.getElementById(`party-${partyId}-order-form`);
     const orderForm = e.target.nextElementSibling;
     if (orderForm.dataset.toggle === "off") {
       orderForm.dataset.toggle = "on";
@@ -216,6 +215,7 @@ tableRow.addEventListener('click', function(e) {
     const input = document.createElement('input');
     input.type = "text";
     input.placeholder = "party name...";
+    input.classList.add("party-name-input")
     e.target.classList.add("disappear");
     e.target.parentNode.appendChild(input);
     input.addEventListener('keydown', function(e) {
@@ -251,6 +251,20 @@ tableRow.addEventListener('click', function(e) {
       e.target.textContent = ": SERVED";
       e.target.style.color = "#03A678"
   }
+});
+
+$(".menu-item").mouseover(function(){
+  $(this).animate({
+    opacity: '0.5',
+    paddingLeft: "2px"
+  });
+});
+
+$(".menu-item").mouseleave(function(){
+  $(this).animate({
+    opacity: '1.0',
+    paddingLeft: "0px"
+  });
 });
 
 

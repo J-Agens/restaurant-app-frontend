@@ -34,6 +34,7 @@ body{
  margin: 30px;
 }
 
+
 .menu-header {
   padding-top: 5px;
   /* padding-bottom: 5px; */
@@ -43,6 +44,7 @@ body{
 .menu-item {
   letter-spacing: 0;
   font-style: italic;
+  /* cursor: grab; */
 }
 
 .trash {
@@ -71,6 +73,7 @@ body{
 
 li {
   font-weight: bold;
+  cursor: grab;
 }
 
 ul {
@@ -133,7 +136,6 @@ img {
  input {
    margin-top: 5px;
    width: 50%;
-   /* background-color: #33AEFF; */
    background-color: #111;
    color: white;
    border: none;
@@ -151,4 +153,12 @@ img {
 
 .party-total {
   /* font-weight: bold; */
+}
+
+.menu-header:hover {
+  color: white;
+}
+
+.party-name-input {
+  height: 2rem;
 }
