@@ -225,11 +225,26 @@ tableRow.addEventListener('click', function(e) {
       }
     })
   } else if (e.target.tagName === "H4") {
-      const tableNumber = parseInt(e.target.parentNode.id);
-      const partyIdNum = parseInt(e.target.nextElementSibling.dataset.partyID);
-      // DELETE PARTY AND RE-RENDER TABLE INTERIOR
-      deleteParty(partyIdNum);
-      renderTableInterior(tableNumber);
+    $.confirm({
+      title: 'Confirm!',
+      content: 'Are you sure you want to delete this party?',
+      buttons: {
+          confirm: function () {
+            const tableNumber = parseInt(e.target.parentNode.id);
+            const partyIdNum = parseInt(e.target.nextElementSibling.dataset.partyID);
+            // DELETE PARTY AND RE-RENDER TABLE INTERIOR
+            deleteParty(partyIdNum);
+            renderTableInterior(tableNumber);
+          },
+          cancel: function () {
+              // $.alert({
+              //   title: 'Canceled!',
+              //   content: "",
+              // });
+          }
+      }
+    });
+
   } else if (e.target.className === "order-status") {
       const orderId = parseInt(e.target.dataset.order);
       changeOrderStatus(orderId);
@@ -237,6 +252,7 @@ tableRow.addEventListener('click', function(e) {
       e.target.style.color = "#03A678"
   }
 });
+
 
 
 });
