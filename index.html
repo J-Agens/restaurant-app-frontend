@@ -12,6 +12,10 @@
     const trash = document.querySelector('.trash');
     function renderOrder(order) {
       const ul = document.body.querySelector(`[data-party-id='${order.party_id}']`);
+      const totalSpan = document.querySelector(`#party-${order.party_id}-total`);
+      let total = parseInt(totalSpan.textContent);
+      total += order.price;
+      totalSpan.textContent = `${total}`;
       ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
     }
     function addOrder(itemName, price, partyId) {
@@ -45,7 +49,10 @@
       fetch(`${ordersUrl}/${orderId}`, {method: "DELETE"})
       .then( res => res.json())
       .then( order => {
-        order;
+        const totalSpan = document.querySelector(`#party-${order.party_id}-total`);
+        let total = parseInt(totalSpan.textContent);
+        total -= order.price;
+        totalSpan.textContent = `${total}`;
       }).catch(error => {
         alert(error.message);
         console.log(error.message)
@@ -96,7 +103,7 @@
       let data=ev.dataTransfer.getData("Text");
       let el = document.getElementById(data);
       let itemName = el.textContent;
-      let price = 1;
+      let price = parseInt(el.dataset.price);
       let partyId = parseInt(ev.target.dataset.partyIdNumber)
       addOrder(itemName, price, partyId)
     }
@@ -114,21 +121,21 @@
           <h1 class="my-header">Menu</h1>
           <div>
             <h4 class="my-header menu-header">Appetizers</h4>
-              <p class="menu-item" draggable="true" id="100" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Mozzarella Sticks</p>
-              <p class="menu-item" draggable="true" id="101" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Jalapeno Poppers</p>
-              <p class="menu-item" draggable="true" id="102" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Caesar Salad</p>
-              <p class="menu-item" draggable="true" id="103" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Soup of the Day</p>
+              <p class="menu-item" draggable="true" id="100" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="5">Mozzarella Sticks</p>
+              <p class="menu-item" draggable="true" id="101" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="4">Jalapeno Poppers</p>
+              <p class="menu-item" draggable="true" id="102" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="3">Caesar Salad</p>
+              <p class="menu-item" draggable="true" id="103" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="3">Soup of the Day</p>
             <div>
               <h4 class="my-header menu-header">Entrées</h4>
               <!-- <ul id="menuItems"> -->
-                <p class="menu-item" draggable="true" id="200" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pizza</p>
-                <p class="menu-item" draggable="true" id="201" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Barbeque Ribs</p>
-                <p class="menu-item" draggable="true" id="202" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Cheeseburger</p>
-                <p class="menu-item" draggable="true" id="203" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Pancakes</p>
-                <p class="menu-item" draggable="true" id="204" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Spaghetti & Meatballs</p>
-                <p class="menu-item" draggable="true" id="205" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Lasagne</p>
-                <p class="menu-item" draggable="true" id="206" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Sushi</p>
-                <p class="menu-item" draggable="true" id="207" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Giant Burrito</p>
+                <p class="menu-item" draggable="true" id="200" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="12">Pizza</p>
+                <p class="menu-item" draggable="true" id="201" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="9">Barbeque Ribs</p>
+                <p class="menu-item" draggable="true" id="202" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="6">Cheeseburger</p>
+                <p class="menu-item" draggable="true" id="203" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="5">Pancakes</p>
+                <p class="menu-item" draggable="true" id="204" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="7">Spaghetti & Meatballs</p>
+                <p class="menu-item" draggable="true" id="205" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="8">Lasagne</p>
+                <p class="menu-item" draggable="true" id="206" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="7">Sushi</p>
+                <p class="menu-item" draggable="true" id="207" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="8">Giant Burrito</p>
               <!-- </ul> -->
             </div>
             <div>
@@ -136,8 +143,8 @@
                 Drinks
               </h4>
               <!-- <ul id="drinkItems"> -->
-                <p class="menu-item" draggable="true" id="300" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Soda</p>
-                <p class="menu-item" draggable="true" id="301" class=${order.id}-order-li ondragstart="dragMenuItem(event)">Beer</p>
+                <p class="menu-item" draggable="true" id="300" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="2">Soda</p>
+                <p class="menu-item" draggable="true" id="301" class=${order.id}-order-li ondragstart="dragMenuItem(event)" data-price="3">Beer</p>
               <!-- </ul> -->
             </div>
           </div>

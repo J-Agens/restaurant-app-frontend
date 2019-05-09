@@ -59,7 +59,7 @@ function renderParty(party) {
   const ul = document.getElementsByClassName(`table-${party.table.id}-list`)[0];
   ul.dataset.partyId = party.id;
   const btn = ul.querySelector('button').classList.add("disappear");
-  h4.innerHTML = `Table ${party.table_id}: ${party.name}`;
+  h4.innerHTML = `Table ${party.table_id}: ${party.name} $<span class="party-total" id="party-${party.id}-total">${party.grand_total}</span>`;
   party.orders.forEach(function(order) {
     ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class="order-status" data-order=${order.id}>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`
   });
@@ -73,7 +73,7 @@ function renderParty(party) {
     <button class="btn btn-primary my-btn" data-add-order-to-party=${party.table_id} data-party-id-number=${party.id} ondrop="dropMenuItem(event)" ondragover="allowDropMenuItem(event)">New Order</button>
     <form id=party-${party.id}-order-form data-toggle="off" class="disappear">
       <input type="text" name="name" placeholder="item name..."/>
-      <input class="form-hidden" type="number" name="price" placeholder="price" />
+      <input type="number" name="price" placeholder="price" />
       <input class="form-hidden" type="submit" value="submit" />
     </form>
     `;
@@ -144,7 +144,11 @@ function addOrder(itemName, price, partyId) {
 
 function renderOrder(order) {
   const ul = document.body.querySelector(`[data-party-id='${order.party_id}']`);
-  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li order-item ondragstart="drag(event)">${order.item_name}<span class=order-status data-order=${order.id}>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
+  const totalSpan = document.querySelector(`#party-${order.party_id}-total`);
+  let total = parseInt(totalSpan.textContent);
+  total += order.price;
+  totalSpan.textContent = `${total}`;
+  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
 }
 
 function deleteOrder (orderId) {
