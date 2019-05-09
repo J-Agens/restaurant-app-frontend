@@ -34,6 +34,9 @@ body{
  margin: 30px;
 }
 
+#menu:hover {
+  cursor: grab;
+}
 
 .menu-header {
   padding-top: 5px;
@@ -45,6 +48,10 @@ body{
   letter-spacing: 0;
   font-style: italic;
   /* cursor: grab; */
+}
+
+.menu-item:active {
+  cursor: grabbing;
 }
 
 .trash {
@@ -74,6 +81,18 @@ body{
 li {
   font-weight: bold;
   cursor: grab;
+}
+
+li:hover {
+
+    cursor: -webkit-grab;
+    cursor: -moz-grab;
+}
+
+li:active {
+    border: 1px dashed #33AEFF;
+    cursor: -webkit-grabbing;
+    cursor: -moz-grabbing;
 }
 
 ul {
@@ -127,6 +146,10 @@ img {
 .order-status {
   color: #0062E6;
   font-weight: bold;
+}
+
+.order-status:hover {
+  cursor: alias;
 }
 
 .form-hidden {

@@ -64,12 +64,18 @@
 
     function allowDrop(ev) {
       ev.target.style.backgroundColor = "#BE90D4"
+      const trashIcon = document.querySelector('#trash-icon')
       ev.preventDefault();
     }
 
     function drag(ev) {
       console.log("running")
       ev.dataTransfer.setData("Text",ev.target.id);
+      $("#trash-icon").animate({
+        padding: "20px",
+        opacity: "0.7"
+      });
+
     }
 
     function drop(ev){
@@ -79,9 +85,18 @@
       if (ev.target === trashIcon) {
         ev.target.style.backgroundColor = "white";
         trashDiv.style.backgroundColor = "white";
+        $(trashIcon).animate({
+          padding: "0px",
+          opacity: "1.0"
+        });
+
       } else if (ev.target === trashDiv) {
         ev.target.style.backgroundColor = "white";
         trashIcon.style.backgroundColor = "white";
+        $(trashIcon).animate({
+          padding: "0px",
+          opacity: "1.0"
+        });
       }
 
       let data = ev.dataTransfer.getData("Text");
@@ -99,6 +114,11 @@
 
     function dragMenuItem(ev) {
       ev.dataTransfer.setData("Text",ev.target.id);
+      $(".new-order-btn").animate({
+        fontSize: "0.8rem",
+        lineHeight: "1.5rem",
+        opacity: "0.8"
+      });
     }
 
     function dropMenuItem(ev) {
@@ -109,6 +129,10 @@
       let price = parseInt(el.dataset.price);
       let partyId = parseInt(ev.target.dataset.partyIdNumber)
       addOrder(itemName, price, partyId)
+      $(".new-order-btn").animate({
+        fontSize: "1rem",
+        opacity: "1.0"
+      });
     }
     </script>
   </head>

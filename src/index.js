@@ -70,7 +70,7 @@ function renderParty(party) {
     }
   })
   formDiv.innerHTML = `
-    <button class="btn btn-primary my-btn" data-add-order-to-party=${party.table_id} data-party-id-number=${party.id} ondrop="dropMenuItem(event)" ondragover="allowDropMenuItem(event)">New Order</button>
+    <button class="btn btn-primary my-btn new-order-btn" data-add-order-to-party=${party.table_id} data-party-id-number=${party.id} ondrop="dropMenuItem(event)" ondragover="allowDropMenuItem(event)">New Order</button>
     <form id=party-${party.id}-order-form data-toggle="off" class="disappear">
       <input type="text" name="name" placeholder="item name..."/>
       <input type="number" name="price" placeholder="price" />
@@ -266,7 +266,6 @@ $(".menu-item").mouseleave(function(){
     paddingLeft: "0px"
   });
 });
-
 
 
 });
