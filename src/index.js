@@ -148,7 +148,7 @@ function renderOrder(order) {
   let total = parseInt(totalSpan.textContent);
   total += order.price;
   totalSpan.textContent = `${total}`;
-  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
+  ul.innerHTML += `<li draggable="true" id="node${order.id}" class=${order.id}-order-li ondragstart="drag(event)">${order.item_name}<span class=order-status data-order=${order.id}>: ${order.served === false ? "BEING PREPARED" : "SERVED" }</span></li>`;
 }
 
 function deleteOrder (orderId) {

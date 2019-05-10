@@ -68,6 +68,7 @@ body{
 }
 
 .table-col{
+  min-height: 280px;
  background-color: white;
  padding: 15px;
  margin:10px;
