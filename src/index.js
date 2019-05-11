@@ -1,9 +1,9 @@
 document.addEventListener("DOMContentLoaded", function() {
 
-const baseUrl = "http://localhost:3000/";
-const tablesUrl = "http://localhost:3000/tables";
-const partiesUrl = "http://localhost:3000/parties";
-const ordersUrl = "http://localhost:3000/orders"
+const baseUrl = "https://powerful-oasis-44271.herokuapp.com/";
+const tablesUrl = "https://powerful-oasis-44271.herokuapp.com/tables";
+const partiesUrl = "https://powerful-oasis-44271.herokuapp.com/parties";
+const ordersUrl = "https://powerful-oasis-44271.herokuapp.com/orders"
 const tableRow = document.querySelector("#table-row");
 
 function getTables(url){
