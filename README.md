@@ -3,6 +3,9 @@ This is a single-page web-application for a restaurant to keep track of orders b
 
 ## Demo
 Follow [this link](https://sleepy-hollows-82798.herokuapp.com/), and be sure to give the app a few seconds to load as it's hosted on a free Heroku account. There should be some seed data on the page, if it doesn't appear right away, refresh the page.
+
+![image](https://user-images.githubusercontent.com/19267312/60045109-fff23b00-9691-11e9-860c-e0af75e0426a.png)
+
  
 ## Screenshots
 Include logo/demo screenshot etc.
