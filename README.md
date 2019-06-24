@@ -11,10 +11,11 @@ Follow [this link](https://sleepy-hollows-82798.herokuapp.com/), and be sure to 
  
  
 ## Tech/framework used
-Ex. -
 
 <b>Built with</b>
-- [Electron](https://electron.atom.io)
+- Rails API [backend](https://github.com/J-Agens/restaurant-app)
+- Vanilla JavaScript frontend
+- Bootstrap 4
 
 ## Features
 What makes your project stand out?
